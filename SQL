@@ -2,3 +2,5 @@ vent24 as (select * from `alert-basis-349808.eICU_Mvent_validation.Xiaoli` where
 vent168 as (select * from `alert-basis-349808.eICU_Mvent_validation.Xiaoli` where starttime<168*60 and endtime>168*60),
 
 
+vent24 as (select * from `alert-basis-349808.eICU_Mvent_validation.Mornin`  where vent_start<24*60 and vent_end>24*60 and oxygen_therapy_type = 4),
+vent168 as (select * from `alert-basis-349808.eICU_Mvent_validation.Mornin`  where vent_start<168*60 and vent_end>168*60 and oxygen_therapy_type = 4),
