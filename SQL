@@ -4,3 +4,19 @@ vent168 as (select * from `alert-basis-349808.eICU_Mvent_validation.Xiaoli` wher
 
 vent24 as (select * from `alert-basis-349808.eICU_Mvent_validation.Mornin`  where vent_start<24*60 and vent_end>24*60 and oxygen_therapy_type = 4),
 vent168 as (select * from `alert-basis-349808.eICU_Mvent_validation.Mornin`  where vent_start<168*60 and vent_end>168*60 and oxygen_therapy_type = 4),
+
+
+with 
+sofa24 as (select patientunitstayid,respiration_24hours as resp_24,coagulation_24hours as coag_24,liver_24hours as liver_24,
+cardiovascular_24hours as cv_24,cns_24hours as cns_24,renal_24hours as renal_24 from `alert-basis-349808.eICUsofa.pivoted_sofa_eicu` where hr = 24 ),
+sofa168 as (select patientunitstayid,respiration_24hours as resp_168,coagulation_24hours as coag_168,liver_24hours as liver_168,
+cardiovascular_24hours as cv_168,cns_24hours as cns_168,renal_24hours as renal_168 from `alert-basis-349808.eICUsofa.pivoted_sofa_eicu` where hr = 168),
+ 
+patient as (select patientunitstayid, hospitaldischargelocation from `physionet-data.eicu_crd.patient` )
+ 
+select distinct * from  `physionet-data.eicu_crd_derived.icustay_detail` as cohort 
+left join sofa24 on cohort.patientunitstayid = sofa24.patientunitstayid
+left join sofa168 on cohort.patientunitstayid = sofa168.patientunitstayid
+ 
+left join patient on cohort.patientunitstayid = patient.patientunitstayid
+left join `physionet-data.eicu_crd_derived.sepsis_from_diagnosis` as s3 on cohort.patientunitstayid = s3.patientunitstayid
