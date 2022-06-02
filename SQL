@@ -1,0 +1,4 @@
+vent24 as (select * from `alert-basis-349808.eICU_Mvent_validation.Xiaoli` where starttime<24*60 and endtime>24*60),
+vent168 as (select * from `alert-basis-349808.eICU_Mvent_validation.Xiaoli` where starttime<168*60 and endtime>168*60),
+
+
